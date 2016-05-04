@@ -31,8 +31,7 @@ module Infoblox
       JSON.parse(connection.get(resource_uri).body).map do |jobj|
         klass = resource_map[jobj["_ref"].split("/").first]
         if klass.nil?
-          puts jobj['_ref']
-          warn "umapped resource: #{jobj["_ref"]}"
+          raise "umapped resource: #{jobj["_ref"]}"
         else
           klass.new(jobj.merge({:connection => connection}))
         end
